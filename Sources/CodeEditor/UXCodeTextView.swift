@@ -7,6 +7,7 @@
 //
 
 import Highlightr
+import SwiftUI
 
 #if os(macOS)
   import AppKit
@@ -30,7 +31,7 @@ final class UXCodeTextView: UXTextView {
   
   fileprivate let highlightr = Highlightr()
     
-    var customBackgroundColor: NSColor? = nil
+    var customBackgroundColor: Color? = nil
   
   private var hlTextStorage : CodeAttributedString? {
     return textStorage as? CodeAttributedString
@@ -247,7 +248,11 @@ final class UXCodeTextView: UXTextView {
     guard let highlightr = highlightr,
           highlightr.setTheme(to: newTheme.rawValue),
           let theme      = highlightr.theme else { return false }
-    self.backgroundColor = customBackgroundColor ?? theme.themeBackgroundColor
+    #if os(macOS)
+      self.backgroundColor = customBackgroundColor ?? theme.themeBackgroundColor
+    #else
+      self.backgroundColor = UIColor(customBackgroundColor ?? Color(theme.themeBackgroundColor.cgColor))
+    #endif
     if let font = theme.codeFont, font !== self.font { self.font = font }
     return true
   }
@@ -266,7 +271,11 @@ final class UXCodeTextView: UXTextView {
     theme.codeFont       = theme.codeFont?      .withSize(newSize)
     theme.boldCodeFont   = theme.boldCodeFont?  .withSize(newSize)
     theme.italicCodeFont = theme.italicCodeFont?.withSize(newSize)
-    self.backgroundColor = customBackgroundColor ?? theme.themeBackgroundColor
+    #if os(macOS)
+      self.backgroundColor = customBackgroundColor ?? theme.themeBackgroundColor
+    #else
+      self.backgroundColor = UIColor(customBackgroundColor ?? Color(theme.themeBackgroundColor.cgColor))
+    #endif
     if let font = theme.codeFont, font !== self.font { self.font = font }
     return true
   }
