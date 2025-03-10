@@ -284,6 +284,7 @@ struct UXCodeTextViewRepresentable : UXViewRepresentable {
       textView.autocorrectionType = .no
       textView.spellCheckingType = .no
       textView.smartQuotesType = .no
+      textView.customBackgroundColor = customBackgroundColor
       #endif
       updateTextView(textView)
       return textView
