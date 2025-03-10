@@ -274,7 +274,6 @@ final class UXCodeTextView: UXTextView {
     theme.italicCodeFont = theme.italicCodeFont?.withSize(newSize)
     let bgColor = customBackgroundColor ?? Color(theme.themeBackgroundColor)
     #if os(macOS)
-      bgColor
       self.backgroundColor = bgColor.nsColor()
     #else
       self.backgroundColor = bgColor.uiColor()
@@ -359,24 +358,24 @@ extension UXTextView {
 extension Color {
     #if os(iOS)
 
-    func uiColor() -> UIColor {
-        
-        if #available(iOS 14.0, *) {
-            return UIColor(self)
-        }
-        
-        let components = self.components()
-        return UIColor(red: components.r, green: components.g, blue: components.b, alpha: components.a)
-    }
+      func uiColor() -> UIColor {
+          
+          if #available(iOS 14.0, *) {
+              return UIColor(self)
+          }
+          
+          let components = self.components()
+          return UIColor(red: components.r, green: components.g, blue: components.b, alpha: components.a)
+      }
     #else
-    func nsColor() -> NSColor {
-            
-        if #available(macOS 11.0, *) {
-            return NSColor(self)
-        }
-        let components = self.components()
-        return NSColor(red: components.r, green: components.g, blue: components.b, alpha: components.a)
-    }
+      func nsColor() -> NSColor {
+              
+          if #available(macOS 11.0, *) {
+              return NSColor(self)
+          }
+          let components = self.components()
+          return NSColor(red: components.r, green: components.g, blue: components.b, alpha: components.a)
+      }
 
     #endif
     private func components() -> (r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat) {
